@@ -5,6 +5,8 @@
 #ifndef _ETL_HAL_GPIOPIN_H_
 #define _ETL_HAL_GPIOPIN_H_
 
+#include "gpio_port.h"
+
 namespace etl {
 	namespace hal {
 
@@ -26,7 +28,7 @@ namespace etl {
 		};
 	
 		template<class Port_, uint8_t pin_>
-		class GPIOPin : public InputPin_base, public OutputPin_base{
+		class GPIOPin : public InputPin_base<Port_,pin_>, public OutputPin_base<Port_,pin_>{
 		public:
 			// Configure pin direction
 			void configureAsOutput	();
@@ -43,13 +45,13 @@ namespace etl {
 		};
 
 		template<class Port_, uint8_t pin_>
-		class OutputPin : public OutputPin_base {
+		class OutputPin : public OutputPin_base<Port_,pin_> {
 		public:
 			OutputPin(); // Configures pin direction
 		};
 
 		template<class Port_, uint8_t pin_>
-		class InputPin : public InputPin_base {
+		class InputPin : public InputPin_base<Port_,pin_> {
 		public:
 			InputPin(); // Configures pin direction
 		};

@@ -16,12 +16,18 @@ namespace etl {
 			void setLow 	() { Port_::clear<pin_>();	}
 			void setHigh	() { Port_::set<pin_>();	}
 			void toggle		() { Port_::toggle<pin_>();	}
+
+			OputputPin_base(const OutputPin_base&) = delete; // Not copy-constructible
+			OutputPin_base& operator=(const OutputPin_base&) = delete;
 		};
 
 		//----------------------------------------------------------------------
 		template<class Port_, uint8_t pin_>
 		struct InputPin_base {
 			bool isHigh		() const { return Port_::isPinHigh<pin_>(); }
+
+			InputPin_base(const OutputPin_base&) = delete; // Not copy-constructible
+			InputPin_base& operator=(const OutputPin_base&) = delete;
 		};
 	
 		//----------------------------------------------------------------------

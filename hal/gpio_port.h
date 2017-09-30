@@ -19,24 +19,20 @@ namespace etl {
 		public:
 			// Pin mode
 			template<uint8_t pin_>
-			static void configureInAsOutput() {
-				sDdr |= bitmask<pin_>();
-			}
+			static void configureInAsOutput() {	DdrReg::setBit<pin_>(); }
 
 			template<uint8_t pin_>
-			static void configureInAsInput() {
-				sDdr &= ~bitmask<pin_>();
-			}
+			static void configureInAsInput() { DdrReg::clearBit<pin_>(); }
 
 			// Pin state
 			template<uint8_t pin_>
-			static void setPin();
+			static void setPin() { PortReg::setBit<pin_>(); }
 			template<uint8_t pin_>
-			static void clearPin();
+			static void clearPin() { PortReg::clearBit<pin_>(); }
 			template<uint8_t pin_>
-			static void togglePin();
+			static void togglePin() { PinReg::setPin<pin_>(); }
 			template<uint8_t pin_>
-			static bool isPinHigh();
+			static auto isPinHigh() { return PinReg::isBitSet<pin_>(); }
 		};
 
 		//------------------------------------------------------------------------------------------------------------

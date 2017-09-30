@@ -12,9 +12,23 @@ namespace etl {
 
 		template<typename PortRegister_>
 		class GPIOPort {
-			using Port = PortRegister_;
-			typedef IORegister<PortRegister_::location-1>	DDR;
-			typedef IORegister<PortRegister_::location-2>	PIN;
+			using PortReg = PortRegister_;
+			using DdrReg = IORegister<PortRegister_::location-1>;
+			using PinReg = IORegister<PortRegister_::location-2|;
+
+			// Pin mode
+			template<uint8_t pin_>
+			static void configureInAsOutput();
+			template<uint8_t pin_>
+			static void configureInAsInput();
+
+			// Pin state
+			template<uint8_t pin_>
+			static void setPin();
+			template<uint8_t pin_>
+			static void clearPin();
+			template<uint8_t pin_>
+			static bool isPinHigh();
 		};
 
 		//------------------------------------------------------------------------------------------------------------

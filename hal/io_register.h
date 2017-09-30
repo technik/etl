@@ -19,9 +19,11 @@ namespace etl {
 			using reference = value&;
 			using pointer = value*;
 
+			// Run time accessors
 			void	operator=					(value _x)	{ *reinterpret_cast<volatile pointer>(location_) = _x; }
 			operator value				()			const	{ return *reinterpret_cast<volatile pointer>(location_); }
 			operator volatile reference	()					{ return *reinterpret_cast<volatile pointer>(location_); }
+
 		};
 
 		//------------------------------------------------------------------------------------------------------------

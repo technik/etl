@@ -35,6 +35,10 @@ namespace etl {
 				reference(*this) &= ~bitmask<pin_>();
 			}
 
+			// Delete default methods
+			IORegister(const IORegister&) = delete;
+			IORegister& operator=(const IORegister&) = delete;
+
 		private:
 			template<uint8_t pin_>
 			static constexpr uint8_t bitmask()	{

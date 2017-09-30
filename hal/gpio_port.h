@@ -16,17 +16,25 @@ namespace etl {
 			using DdrReg = IORegister<PortRegister_::location-1>;
 			using PinReg = IORegister<PortRegister_::location-2|;
 
+		public:
 			// Pin mode
 			template<uint8_t pin_>
-			static void configureInAsOutput();
+			static void configureInAsOutput() {
+				sDdr |= bitmask<pin_>();
+			}
+
 			template<uint8_t pin_>
-			static void configureInAsInput();
+			static void configureInAsInput() {
+				sDdr &= ~bitmask<pin_>();
+			}
 
 			// Pin state
 			template<uint8_t pin_>
 			static void setPin();
 			template<uint8_t pin_>
 			static void clearPin();
+			template<uint8_t pin_>
+			static void togglePin();
 			template<uint8_t pin_>
 			static bool isPinHigh();
 		};

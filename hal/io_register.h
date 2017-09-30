@@ -25,14 +25,19 @@ namespace etl {
 			operator reference	()			{ return *reinterpret_cast<pointer>(location_); }
 
 			// Individual pin management
-			template<uint8_t pin_>
+			template<uint8_t bit_>
 			static void setBit() {
-					reference(*this) |= bitmask<pin_>();
+				*reinterpret_cast<pointer>(location_) |= bitmask<bit_>();
 			}
 
-			template<uint8_t pin_>
+			template<uint8_t bit_>
 			static void clearBit() {
-				reference(*this) &= ~bitmask<pin_>();
+				*reinterpret_cast<pointer>(location_) &= ~bitmask<bit_>();
+			}
+
+			template<uint8_t bit_>
+			static value isBitSet(){
+				*reinterpret_cast<pointer>(location_) & bitmask<bit_>();
 			}
 
 			// Delete default methods
@@ -40,10 +45,10 @@ namespace etl {
 			IORegister& operator=(const IORegister&) = delete;
 
 		private:
-			template<uint8_t pin_>
+			template<uint8_t bit_>
 			static constexpr uint8_t bitmask()	{
-				static_assert(pin_<8, "pin_ is out of the scope of this register");
-				return (1<<pin_);
+				static_assert(bit_<8, "bit_ is out of the scope of this register");
+				return (1<<bit_);
 			}
 
 		};

@@ -14,25 +14,25 @@ namespace etl {
 		class GPIOPort {
 			using PortReg = PortRegister_;
 			using DdrReg = IORegister<PortRegister_::location-1>;
-			using PinReg = IORegister<PortRegister_::location-2|;
+			using PinReg = IORegister<PortRegister_::location-2>;
 
 		public:
 			// Pin mode
 			template<uint8_t pin_>
-			static void configureInAsOutput() {	DdrReg::setBit<pin_>(); }
+			static void configureAsOutput() { DdrReg::template setBit<pin_>(); }
 
 			template<uint8_t pin_>
-			static void configureInAsInput() { DdrReg::clearBit<pin_>(); }
+			static void configureAsInput() { DdrReg::template clearBit<pin_>(); }
 
 			// Pin state
 			template<uint8_t pin_>
-			static void setPin() { PortReg::setBit<pin_>(); }
+			static void setPin() { PortReg::template setBit<pin_>(); }
 			template<uint8_t pin_>
-			static void clearPin() { PortReg::clearBit<pin_>(); }
+			static void clearPin() { PortReg::template clearBit<pin_>(); }
 			template<uint8_t pin_>
-			static void togglePin() { PinReg::setPin<pin_>(); }
+			static void togglePin() { PinReg::template setPin<pin_>(); }
 			template<uint8_t pin_>
-			static auto isPinHigh() { return PinReg::isBitSet<pin_>(); }
+			static typename PinReg::value isPinHigh() { return PinReg::template isBitSet<pin_>(); }
 		};
 
 		//------------------------------------------------------------------------------------------------------------

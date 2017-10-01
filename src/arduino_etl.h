@@ -8,8 +8,8 @@
 #include "hal/gpio_pin.h"
 
 // Pin state tags, useful for specialization of digitalWrite
-struct PinLow_t;
-struct PinHigh_t;
+struct PinLow_t {};
+struct PinHigh_t {};
 
 namespace {
 	PinLow_t Low;

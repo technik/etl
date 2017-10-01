@@ -13,17 +13,21 @@ namespace etl {
 		//----------------------------------------------------------------------
 		template<class Port_, uint8_t pin_>
 		struct OutputPin_base {
+			OutputPin_base() = default;
+
 			void setLow 	() { Port_::template clearPin<pin_>();	}
 			void setHigh	() { Port_::template setPin<pin_>();	}
 			void toggle		() { Port_::template togglePin<pin_>();	}
 
-			OputputPin_base(const OutputPin_base&) = delete; // Not copy-constructible
+			OutputPin_base(const OutputPin_base&) = delete; // Not copy-constructible
 			OutputPin_base& operator=(const OutputPin_base&) = delete;
 		};
 
 		//----------------------------------------------------------------------
 		template<class Port_, uint8_t pin_>
 		struct InputPin_base {
+			InputPin_base() = default;
+
 			bool isHigh		() const { return Port_::template isPinHigh<pin_>(); }
 
 			InputPin_base(const InputPin_base&) = delete; // Not copy-constructible

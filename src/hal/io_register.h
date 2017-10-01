@@ -37,7 +37,7 @@ namespace etl {
 
 			template<uint8_t bit_>
 			static value isBitSet(){
-				*reinterpret_cast<pointer>(location_) & bitmask<bit_>();
+				return *reinterpret_cast<pointer>(location_) & bitmask<bit_>();
 			}
 
 			// Delete default methods

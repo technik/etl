@@ -38,21 +38,21 @@ namespace etl {
 		//------------------------------------------------------------------------------------------------------------
 		// AVR Port register mapping
 #if defined (__AVR_ATmega2560__)
-		typedef IORegister<0x20> PinAReg;
-		typedef IORegister<0x21> DdrARReg;
-		typedef IORegister<0x22> PortAReg;
+		using PinAReg	= IORegister<0x20>;
+		using DdrARReg	= IORegister<0x21>;
+		using PortAReg	= IORegister<0x22>;
 #endif
 
 #if defined (__AVR_ATmega328P__) || defined (__AVR_ATmega2560__)
-		using PinBReg	IORegister<0x23>
-		using DdrBReg	IORegister<0x24>;
-		using PortBReg	IORegister<0x25>;
-		using PinCReg	IORegister<0x26>;
-		using DdrCReg	IORegister<0x27>;
-		using PortCReg	IORegister<0x28>;
-		using PinDReg	IORegister<0x29>;
-		using DdrDReg	IORegister<0x2a>;
-		using PortDReg	IORegister<0x2b>;
+		using PinBReg	= IORegister<0x23>;
+		using DdrBReg	= IORegister<0x24>;
+		using PortBReg	= IORegister<0x25>;
+		using PinCReg	= IORegister<0x26>;
+		using DdrCReg	= IORegister<0x27>;
+		using PortCReg	= IORegister<0x28>;
+		using PinDReg	= IORegister<0x29>;
+		using DdrDReg	= IORegister<0x2a>;
+		using PortDReg	= IORegister<0x2b>;
 #endif // __AVR_ATmega328P__ || __AVR_ATmega2560__
 		//------------------------------------------------------------------------------------------------------------
 		// AVR Port mapping

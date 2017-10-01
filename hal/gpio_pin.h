@@ -13,9 +13,9 @@ namespace etl {
 		//----------------------------------------------------------------------
 		template<class Port_, uint8_t pin_>
 		struct OutputPin_base {
-			void setLow 	() { Port_::clear<pin_>();	}
-			void setHigh	() { Port_::set<pin_>();	}
-			void toggle		() { Port_::toggle<pin_>();	}
+			void setLow 	() { Port_::template clearPin<pin_>();	}
+			void setHigh	() { Port_::template setPin<pin_>();	}
+			void toggle		() { Port_::template togglePin<pin_>();	}
 
 			OputputPin_base(const OutputPin_base&) = delete; // Not copy-constructible
 			OutputPin_base& operator=(const OutputPin_base&) = delete;
@@ -24,10 +24,10 @@ namespace etl {
 		//----------------------------------------------------------------------
 		template<class Port_, uint8_t pin_>
 		struct InputPin_base {
-			bool isHigh		() const { return Port_::isPinHigh<pin_>(); }
+			bool isHigh		() const { return Port_::template isPinHigh<pin_>(); }
 
-			InputPin_base(const OutputPin_base&) = delete; // Not copy-constructible
-			InputPin_base& operator=(const OutputPin_base&) = delete;
+			InputPin_base(const InputPin_base&) = delete; // Not copy-constructible
+			InputPin_base& operator=(const InputPin_base&) = delete;
 		};
 	
 		//----------------------------------------------------------------------
@@ -37,22 +37,22 @@ namespace etl {
 			, OutputPin_base<Port_,pin_>{
 		public:
 			// Configure pin direction
-			void configureAsOutput	() { Port_::configurePinAsOutput<pin_>(); }
-			void configureAsInput	() { Port_::configurePinAsInput<pin_>(); }
+			void configureAsOutput	() { Port_::template configurePinAsOutput<pin_>(); }
+			void configureAsInput	() { Port_::template configurePinAsInput<pin_>(); }
 		};
 
 		//----------------------------------------------------------------------
 		template<class Port_, uint8_t pin_>
 		struct OutputPin : OutputPin_base<Port_,pin_> {
 		public:
-			OutputPin() { Port_::configurePinAsOutput<pin_>(); }
+			OutputPin() { Port_::template configurePinAsOutput<pin_>(); }
 		};
 
 		//----------------------------------------------------------------------
 		template<class Port_, uint8_t pin_>
 		struct InputPin : InputPin_base<Port_,pin_> {
 		public:
-			InputPin() { Port_::configurePinAsInput<pin_>(); }
+			InputPin() { Port_::template configurePinAsInput<pin_>(); }
 		};
 
 	}

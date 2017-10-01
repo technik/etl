@@ -53,15 +53,6 @@ namespace etl {
 
 		};
 
-		//------------------------------------------------------------------------------------------------------------
-		// AVR Port mapping
-#if defined (__AVR_ATmega2560__)
-		typedef IORegister<0x20> PinAReg;
-		typedef IORegister<0x21> DdrARReg;
-		typedef IORegister<0x22> PortAReg;
-#endif
-
-
 	}
 }
 

@@ -36,10 +36,38 @@ namespace etl {
 		};
 
 		//------------------------------------------------------------------------------------------------------------
+		// AVR Port register mapping
+#if defined (__AVR_ATmega2560__)
+		typedef IORegister<0x20> PinAReg;
+		typedef IORegister<0x21> DdrARReg;
+		typedef IORegister<0x22> PortAReg;
+#endif
+
+#if defined (__AVR_ATmega328P__) || defined (__AVR_ATmega2560__)
+		using PinBReg	IORegister<0x23>
+		using DdrBReg	IORegister<0x24>;
+		using PortBReg	IORegister<0x25>;
+		using PinCReg	IORegister<0x26>;
+		using DdrCReg	IORegister<0x27>;
+		using PortCReg	IORegister<0x28>;
+		using PinDReg	IORegister<0x29>;
+		using DdrDReg	IORegister<0x2a>;
+		using PortDReg	IORegister<0x2b>;
+#endif // __AVR_ATmega328P__ || __AVR_ATmega2560__
+		//------------------------------------------------------------------------------------------------------------
 		// AVR Port mapping
 #ifdef PORTA
 		using PortA = GPIOPort<PortAReg>;
 #endif // PORTA
+#ifdef PORTB
+		using PortB = GPIOPort<PortBReg>;
+#endif
+#ifdef PORTC
+		using PortC = GPIOPort<PortCReg>;
+#endif
+#ifdef PORTD
+		using PortD = GPIOPort<PortDReg>;
+#endif
 	}
 }
 

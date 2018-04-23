@@ -28,7 +28,7 @@ namespace etl {
 		struct InputPin_base {
 			InputPin_base() = default;
 
-			bool isHigh		() const { return Port_::template isPinHigh<pin_>(); }
+			bool isHigh		() const volatile { return Port_::template isPinHigh<pin_>(); }
 
 			InputPin_base(const InputPin_base&) = delete; // Not copy-constructible
 			InputPin_base& operator=(const InputPin_base&) = delete;

@@ -20,9 +20,9 @@ namespace etl {
 			using pointer = volatile value*;
 
 			// Run time accessors
-			void	operator=	(value _x)	{ *reinterpret_cast<pointer>(location_) = _x; }
-			operator value		()	const	{ return *reinterpret_cast<pointer>(location_); }
-			operator reference	()			{ return *reinterpret_cast<pointer>(location_); }
+			void	operator=	(value _x)			{ *reinterpret_cast<pointer>(location_) = _x; }
+			operator value		()	const volatile	{ return *reinterpret_cast<pointer>(location_); }
+			operator reference	()					{ return *reinterpret_cast<pointer>(location_); }
 
 			// Individual pin management
 			template<uint8_t bit_>
@@ -36,7 +36,7 @@ namespace etl {
 			}
 
 			template<uint8_t bit_>
-			static value isBitSet(){
+			static value isBitSet() volatile {
 				return *reinterpret_cast<pointer>(location_) & bitmask<bit_>();
 			}
 

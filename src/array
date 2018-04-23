@@ -1,0 +1,103 @@
+//----------------------------------------------------------------------------------------------------------------------
+// std::array
+//----------------------------------------------------------------------------------------------------------------------
+#pragma once
+#ifndef _ARRAY_
+#define _ARRAY_
+
+#include "cstddef"
+#include "initializer_list"
+
+namespace std {
+
+	template<class T> struct _basic_array{
+		using value_type = T;
+		using pointer = T*;
+		using const_pointer = const T*;
+		using reference = T&;
+		using const_reference = const T&;
+		using size_type = std::size_t;
+		using difference_type = std::ptrdiff_t;
+		using iterator = T*;
+		using const_iterator = const T*;
+	};
+	
+	template<class T, std::size_t N> struct array : _basic_array<T>
+	{
+		using value_type		= typename _basic_array<T>::value_type;
+		using pointer			= typename _basic_array<T>::pointer;
+		using const_pointer		= typename _basic_array<T>::const_pointer;
+		using reference			= typename _basic_array<T>::reference;
+		using const_reference	= typename _basic_array<T>::const_reference;
+		using size_type			= typename _basic_array<T>::size_type;
+		using difference_type	= typename _basic_array<T>::difference_type;
+		using iterator			= typename _basic_array<T>::iterator;
+		using const_iterator	= typename _basic_array<T>::const_iterator;
+
+		// Iterator access
+		iterator					begin	() noexcept			{ return _m_elements; }
+		constexpr const_iterator	begin	() const noexcept	{ return _m_elements; }
+		iterator					end		() noexcept			{ return &_m_elements[N]; }
+		constexpr const_iterator	end		() const noexcept	{ return &_m_elements[N]; }
+
+		// Size
+		constexpr bool		empty	() const noexcept { return false; }
+		constexpr size_type size	() const noexcept { return N; }
+		constexpr size_type max_size() const noexcept { return N; }
+
+		reference					operator[]	(size_type n)					{ return _m_elements[n]; }
+		constexpr const_reference	operator[]	(size_type n)	const			{ return _m_elements[n]; }
+
+		reference					at			(size_type n)					{ return _m_elements[n]; }
+		constexpr const_reference	at			(size_type n)	const			{ return _m_elements[n]; }
+		reference					front		()								{ return _m_elements[0]; }
+		constexpr const_reference	front		()				const			{ return _m_elements[0]; }
+		reference					back		()								{ return _m_elements[N-1]; }
+		constexpr const_reference	back		()				const			{ return _m_elements[N-1]; }
+		T*							data		()				noexcept		{ return _m_elements; }
+		constexpr const T*			data		()				const noexcept	{ return _m_elements; }
+
+	private:
+		T _m_elements[N];
+	};
+
+	// Partial specialization for Zero-sized array
+	template<class T>
+	struct array<T,0> : _basic_array<T>
+	{
+		using value_type		= typename _basic_array<T>::value_type;
+		using pointer			= typename _basic_array<T>::pointer;
+		using const_pointer		= typename _basic_array<T>::const_pointer;
+		using reference			= typename _basic_array<T>::reference;
+		using const_reference	= typename _basic_array<T>::const_reference;
+		using size_type			= typename _basic_array<T>::size_type;
+		using difference_type	= typename _basic_array<T>::difference_type;
+		using iterator			= typename _basic_array<T>::iterator;
+		using const_iterator	= typename _basic_array<T>::const_iterator;
+
+		// Iterator access
+		iterator					begin	() noexcept			{ return nullptr; }
+		constexpr const_iterator	begin	() const noexcept	{ return nullptr; }
+		iterator					end		() noexcept			{ return nullptr; }
+		constexpr const_iterator	end		() const noexcept	{ return nullptr; }
+
+		// Size
+		constexpr bool		empty	() const noexcept { return true; }
+		constexpr size_type size	() const noexcept { return 0; }
+		constexpr size_type max_size() const noexcept { return 0; }
+
+		reference					operator[]	(size_type n)					{ return nullptr; }
+		constexpr const_reference	operator[]	(size_type n)	const			{ return *reinterpret_cast<const T*>(nullptr); }
+		reference					at			(size_type n)					{ return *reinterpret_cast<T*>(nullptr); }
+		constexpr const_reference	at			(size_type n)	const			{ return *reinterpret_cast<const T*>(nullptr); }
+		reference					front		()								{ return *reinterpret_cast<T*>(nullptr); }
+		constexpr const_reference	front		()				const			{ return *reinterpret_cast<const T*>(nullptr); }
+		reference					back		()								{ return *reinterpret_cast<T*>(nullptr); }
+		constexpr const_reference	back		()				const			{ return *reinterpret_cast<const T*>(nullptr); }
+		T*							data		()				noexcept		{ return nullptr; }
+		constexpr const T*			data		()				const noexcept	{ return nullptr; }
+	};
+	
+}	// namespace std
+
+#endif // _ARRAY_

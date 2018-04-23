@@ -1,0 +1,39 @@
+//----------------------------------------------------------------------------------------------------------------------
+// std types defined in C
+//----------------------------------------------------------------------------------------------------------------------
+#pragma once
+#ifndef _CSTDDEF_
+#define _CSTDDEF_
+
+extern "C" {
+#include <stddef.h>
+}
+
+namespace std {
+    using ptrdiff_t = ::ptrdiff_t;
+    using size_t = ::size_t;
+    //using max_align_t = ;
+    using nullptr_t = decltype(nullptr);
+ 
+    enum class byte : unsigned char {} ;
+    template <class IntegerType>
+    constexpr byte& operator<<=(byte& b, IntegerType shift) noexcept;
+    template <class IntegerType>
+    constexpr byte operator<<(byte b, IntegerType shift) noexcept;
+    template <class IntegerType>
+    constexpr byte& operator>>=(byte& b, IntegerType shift) noexcept;
+    template <class IntegerType>
+    constexpr byte operator>>(byte b, IntegerType shift) noexcept;
+ 
+    constexpr byte& operator|=(byte& l, byte r) noexcept;
+    constexpr byte operator|(byte l, byte r) noexcept;
+    constexpr byte& operator&=(byte& l, byte r) noexcept;
+    constexpr byte operator&(byte l, byte r) noexcept;
+    constexpr byte& operator^=(byte& l, byte r) noexcept;
+    constexpr byte operator^(byte l, byte r) noexcept;
+    constexpr byte operator~(byte b) noexcept;
+    template <class IntegerType>
+    constexpr IntegerType to_integer(byte b) noexcept; 
+}
+
+#endif // _CSTDDEF_

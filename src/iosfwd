@@ -1,0 +1,149 @@
+//----------------------------------------------------------------------------------------------------------------------
+// Forward declarations for i/o types
+//----------------------------------------------------------------------------------------------------------------------
+#pragma once
+#ifndef _IOSFWD_
+#define _IOSFWD_
+
+#include "cstddef"
+
+namespace std {
+
+	using streamoff = ptrdiff_t;
+	using mbstate_t = streamoff;
+
+	// file and stream position types
+	template <class stateT> class fpos {
+	public: // Nested types
+		using state_type = stateT;
+
+	public: // Public interface
+		stateT state() const 
+		{
+			return _state;
+		}
+		void state(stateT s)
+		{
+			_state = s;
+		}
+
+	private:
+		stateT _state;
+	};
+
+	using streampos = fpos<mbstate_t>;
+	using wstreampos = fpos<mbstate_t>;
+
+	// Char traits
+	template<class charT> class char_traits {
+	public:
+		using pos_type = streampos;
+	};
+
+	template<>	class char_traits<char>;
+	template<>	class char_traits<char16_t>;
+	template<>	class char_traits<char32_t>;
+
+	// Allocator
+	template<class T> class allocator;
+
+	// Streams
+	template<class charT, class traits = char_traits<charT>>
+	class basic_ios {};
+
+	template<class charT, class traits = char_traits<charT>>
+	class basic_streambuf;
+
+	template<class charT, class traits = char_traits<charT>>
+	class basic_istream : public virtual basic_ios<charT, traits> 
+	{
+	};
+
+	template<class charT, class traits = char_traits<charT>>
+	class basic_ostream : public virtual basic_ios<charT, traits> 
+	{
+	};
+
+	template<class charT, class traits = char_traits<charT>>
+	class basic_iostream : public basic_istream<charT, traits>, public basic_ostream<charT, traits>
+	{
+	};
+
+	// String streams
+	template<class charT, class traits = char_traits<charT>, class Allocator = allocator<charT>>
+	class basic_stringbuf : public basic_streambuf<charT, traits>
+	{
+	};
+
+	template<class charT, class traits = char_traits<charT>, class Allocator = allocator<charT>>
+	class basic_istringstream : public basic_istream<charT,traits>
+	{};
+
+	template<class charT, class traits = char_traits<charT>, class Allocator = allocator<charT>>
+	class basic_ostringstream : public basic_ostream<charT,traits>
+	{};
+
+	template<class charT, class traits = char_traits<charT>, class Allocator = allocator<charT>>
+	class basic_stringstream : public basic_iostream<charT,traits>
+	{};
+
+	// File i/o
+	template<class charT, class traits = char_traits<charT>>
+	class basic_filebuf;
+
+	template<class charT, class traits = char_traits<charT>>
+	class basic_ifstream : public basic_istream<charT,traits>
+	{};
+
+	template<class charT, class traits = char_traits<charT>>
+	class basic_ofstream : public basic_ostream<charT,traits>
+	{};
+
+	template<class charT, class traits = char_traits<charT>>
+	class basic_fstream : public basic_iostream<charT,traits>
+	{};
+
+	// Iterators
+	template <class charT, class traits = char_traits<charT>>
+	class istreambuf_iterator;
+
+	template <class charT, class traits = char_traits<charT>>
+	class ostreambuf_iterator;
+
+	// --- Aliases for basic I/O types ---
+	using ios = basic_ios<char>;
+	using wios = basic_ios<wchar_t>;
+
+	using streambuf = basic_streambuf<char>;
+	using istream = basic_istream<char>;
+	using ostream = basic_ostream<char>;
+	using iostream = basic_iostream<char>;
+
+	using stringbuf = basic_stringbuf<char>;
+	using istringstream = basic_istringstream<char>;
+	using ostringstream = basic_ostringstream<char>;
+	using stringstream = basic_stringstream<char>;
+
+	using filebuf = basic_filebuf<char>;
+	using ifstream = basic_ifstream<char>;
+	using ofstream = basic_ofstream<char>;
+	using fstream = basic_fstream<char>;
+
+	using wstreambuf = basic_streambuf<wchar_t>;
+	using wistream = basic_istream<wchar_t>;
+	using wostream = basic_ostream<wchar_t>;
+	using wiostream = basic_iostream<wchar_t>;
+
+	using wstringbuf = basic_stringbuf<wchar_t>;
+	using wistringstream = basic_istringstream<wchar_t>;
+	using wostringstream = basic_ostringstream<wchar_t>;
+	using wstringstream = basic_stringstream<wchar_t>;
+
+	using wfilebuf = basic_filebuf<wchar_t>;
+	using wifstream = basic_ifstream<wchar_t>;
+	using wofstream = basic_ofstream<wchar_t>;
+	using wfstream = basic_fstream<wchar_t>;
+
+}	// namespace std
+
+#endif // _IOSFWD_

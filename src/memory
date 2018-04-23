@@ -1,0 +1,37 @@
+//----------------------------------------------------------------------------------------------------------------------
+// Allocators, smart pointers, etc
+//----------------------------------------------------------------------------------------------------------------------
+#pragma once
+#ifndef _MEMORY_
+#define _MEMORY_
+
+namespace std {
+	
+	// Pointer traits
+	template<class Ptr> struct pointer_traits;
+	template<class T> struct pointer_traits<T*>; // Specialization for pointer types
+
+	enum class pointer_safety { relaxed, preferred, strict };
+	void declare_reachable(void* p);
+
+	// Default allocator
+	template<class T> class allocator {
+	public:
+		using value_type = T;
+		//using propagate_on_container_move_assignment = true_type;
+		//using is_always_equal = true_type;
+		allocator() noexcept;
+		allocator(const allocator&) noexcept;
+		template <class U> allocator(const allocator<U>&) noexcept;
+		~allocator();
+		T* allocate(size_t n) {
+			return new T[n];
+		}
+		void deallocate(T* p, size_t) {
+			delete[] p;
+		}
+	};
+
+} // namespace std
+
+#endif // _MEMORY_

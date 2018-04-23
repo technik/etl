@@ -5,8 +5,8 @@
 #ifndef _ETL_HAL_IOREGISTER_H_
 #define _ETL_HAL_IOREGISTER_H_
 
-#include <avr_stl/cstddef>
-#include <avr_stl/cstdint>
+#include <cstddef>
+#include <cstdint>
 #include <avr/io.h>
 
 namespace etl {

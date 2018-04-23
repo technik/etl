@@ -32,7 +32,7 @@ namespace etl {
 			template<uint8_t pin_>
 			static void togglePin() { PinReg::template setBit<pin_>(); }
 			template<uint8_t pin_>
-			static typename PinReg::value isPinHigh() volatile { return PinReg::template isBitSet<pin_>(); }
+			static typename PinReg::value isPinHigh() { return PinReg::template isBitSet<pin_>(); }
 		};
 
 		//------------------------------------------------------------------------------------------------------------

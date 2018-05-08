@@ -23,11 +23,16 @@ namespace etl::math {
 	// 24 byte operations can be implemented with some assembly
 	template<> struct StorageSizeTraits<24> : StorageSizeTraits<32> {}; // Force power of two sizes
 
-	template<size_t n, size_t baseSize_ = (n-1)>>3 + 1>
+	constexpr size_t nextByteSize(size_t n) {
+		return ((n-1)/8 + 1)*8;
+	}
+
+	template<size_t n>
 	struct FixedStorageTraits
 	{
-		using Storage = StorageSizeTraits<baseSize_>;
-		static constexpr size = Storage::size;
+		using StorageTraits = StorageSizeTraits<nextByteSize(n)>;
+		using Storage = typename StorageTraits::Type;
+		static constexpr size_t size = StorageTraits::size;
 
 		// Validates at compile time that a given number fits inside
 		template<Storage x_>
@@ -45,14 +50,26 @@ namespace etl::math {
 	template<size_t integerSize_, size_t fractionalSize_>
 	struct UFixed : FixedStorageTraits<integerSize_+fractionalSize_>
 	{
-		using Integer = template FixedStorageTraits<integerSize_>::Storage;
-		using Fractional = template FixedStorageTraits<fractionalSize_>::Storage;
+		using Integer = typename FixedStorageTraits<integerSize_>::Storage;
+		using Fractional = typename FixedStorageTraits<fractionalSize_>::Storage;
 
 		UFixed() = default;
 		constexpr UFixed(Integer i);
 
 		// casting
-		constexpr operator Integer() const { return i>>shift; }
+		constexpr explicit operator Integer() const { return x>>shift; }
+
+		// Basic arithmetic
+		constexpr UFixed operator+(const UFixed& b) const;
+		constexpr UFixed operator-(const UFixed& b) const;
+		constexpr UFixed operator/(const UFixed& b) const;
+
+		constexpr UFixed operator/(unsigned b) const;
+		constexpr UFixed operator/(int b) const { return (*this)/unsigned(b); }
+
+		constexpr bool operator==(const UFixed& b) const { return x==b.x; }
+		constexpr bool operator==(unsigned b) const { return x==(b<<shift); }
+		constexpr bool operator==(int b) const { return (*this)==unsigned(b); }
 
 	private:
 		static constexpr size_t shift = fractionalSize_;
@@ -62,38 +79,37 @@ namespace etl::math {
 	// External operators
 	//------------------------------------------------------------------------------
 	template<size_t ni_, size_t nf_>
-	constexpr UFixed<ni_,nf_> operator+(const UFixed_<ni_,nf_>& a, const UFixed<ni_,nf_>& b)
+	constexpr auto UFixed<ni_,nf_>::operator+(const UFixed& b) const -> UFixed
 	{
 		UFixed<ni_,nf_> result;
-		result.x = a.x+b.x; // Maintain precision by avoiding castings
+		result.x = x+b.x; // Maintain precision by avoiding castings
 		return result;
 	}
 
 	//------------------------------------------------------------------------------
 	template<size_t ni_, size_t nf_>
-	constexpr UFixed<ni_,nf_> operator-(const UFixed_<ni_,nf_>& a, const UFixed<ni_,nf_>& b)
+	constexpr auto UFixed<ni_,nf_>::operator-(const UFixed& b) const -> UFixed
 	{
 		UFixed<ni_,nf_> result;
-		result.x = a.x-b.x; // Maintain precision by avoiding castings
+		result.x = x-b.x; // Maintain precision by avoiding castings
 		return result;
 	}
 
 	//------------------------------------------------------------------------------
 	template<size_t ni_, size_t nf_>
-	constexpr UFixed<ni_,nf_> operator*(const UFixed_<ni_,nf_>& a, const UFixed<ni_,nf_>& b)
+	constexpr auto UFixed<ni_,nf_>::operator/(const UFixed& b) const -> UFixed
 	{
 		UFixed<ni_,nf_> result;
-		// TODO: Can possibly have better precision using a bigger size temporary.
-		result.x = (a.x*b.x)>>shift;
+		result.x = (x/b.x)<<shift; // Maintain precision by avoiding castings
 		return result;
 	}
 
 	//------------------------------------------------------------------------------
 	template<size_t ni_, size_t nf_>
-	constexpr UFixed<ni_,nf_> operator/(const UFixed_<ni_,nf_>& a, const UFixed<ni_,nf_>& b)
+	constexpr auto UFixed<ni_,nf_>::operator/(unsigned b) const -> UFixed
 	{
 		UFixed<ni_,nf_> result;
-		result.x = (a.x/b.x)<<shift; // Maintain precision by avoiding castings
+		result.x = x/b;
 		return result;
 	}
 

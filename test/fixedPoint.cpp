@@ -13,6 +13,10 @@ int main()
 	Real b;
 	a = 500;
 	b = 200;
-	assert ((a+b)/2 == 350);
+	auto t = (a+b)/2;
+	assert (t == 350);
+	a = 1023;
+	b = a;
+	assert ((a+b)/2 == 1023);
 	return 0;
 }

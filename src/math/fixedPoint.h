@@ -59,6 +59,45 @@ namespace etl::math {
 		Storage x;
 	};
 
+	// External operators
+	//------------------------------------------------------------------------------
+	template<size_t ni_, size_t nf_>
+	constexpr UFixed<ni_,nf_> operator+(const UFixed_<ni_,nf_>& a, const UFixed<ni_,nf_>& b)
+	{
+		UFixed<ni_,nf_> result;
+		result.x = a.x+b.x; // Maintain precision by avoiding castings
+		return result;
+	}
+
+	//------------------------------------------------------------------------------
+	template<size_t ni_, size_t nf_>
+	constexpr UFixed<ni_,nf_> operator-(const UFixed_<ni_,nf_>& a, const UFixed<ni_,nf_>& b)
+	{
+		UFixed<ni_,nf_> result;
+		result.x = a.x-b.x; // Maintain precision by avoiding castings
+		return result;
+	}
+
+	//------------------------------------------------------------------------------
+	template<size_t ni_, size_t nf_>
+	constexpr UFixed<ni_,nf_> operator*(const UFixed_<ni_,nf_>& a, const UFixed<ni_,nf_>& b)
+	{
+		UFixed<ni_,nf_> result;
+		// TODO: Can possibly have better precision using a bigger size temporary.
+		result.x = (a.x*b.x)>>shift;
+		return result;
+	}
+
+	//------------------------------------------------------------------------------
+	template<size_t ni_, size_t nf_>
+	constexpr UFixed<ni_,nf_> operator/(const UFixed_<ni_,nf_>& a, const UFixed<ni_,nf_>& b)
+	{
+		UFixed<ni_,nf_> result;
+		result.x = (a.x/b.x)<<shift; // Maintain precision by avoiding castings
+		return result;
+	}
+
+	// Inline implementation
 	//------------------------------------------------------------------------------
 	template<size_t ni_, size_t nf_>
 	constexpr UFixed<ni_,nf_>::UFixed(Integer i)

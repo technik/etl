@@ -57,8 +57,8 @@ namespace std {
 		T*							data		()				noexcept		{ return _m_elements; }
 		constexpr const T*			data		()				const noexcept	{ return _m_elements; }
 
-	private:
-		T _m_elements[N];
+		typedef T __Type[N];
+		__Type _m_elements;
 	};
 
 	// Partial specialization for Zero-sized array

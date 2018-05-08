@@ -12,8 +12,8 @@ struct PinLow_t {};
 struct PinHigh_t {};
 
 namespace {
-	PinLow_t Low;
-	PinHigh_t High;
+	static constexpr PinLow_t Low;
+	static constexpr PinHigh_t High;
 }
 
 // digitalWrite overloads

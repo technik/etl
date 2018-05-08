@@ -3,19 +3,22 @@
 //----------------------------------------------------------------------------------
 #pragma once
 
-#include <cstddef>
+#include <cstdint>
 
 namespace etl::math {
 
 	template<size_t n>
 	struct StorageSizeTraits; // Default is unimplemented
 
-	template<size_t n>
-	struct StorageSizeTraitsBase { static constexpr size_t size = n; }
+	template<typename T>
+	struct StorageSizeTraitsBase {
+		static constexpr size_t size = sizeof(T);
+		using Type = T;
+	};
 
-	template<> struct StorageSizeTraits<8> : StorageSizeTraitsBase { using Type = uint8_t; }
-	template<> struct StorageSizeTraits<16> : StorageSizeTraitsBase { using Type = uint16_t; }
-	template<> struct StorageSizeTraits<32> : StorageSizeTraitsBase { using Type = uint32_t; }
+	template<> struct StorageSizeTraits<8> : StorageSizeTraitsBase<uint8_t> {};
+	template<> struct StorageSizeTraits<16> : StorageSizeTraitsBase<uint16_t> {};
+	template<> struct StorageSizeTraits<32> : StorageSizeTraitsBase<uint32_t> {};
 	// TODO: In platforms where instruction set actually works on separate bytes.
 	// 24 byte operations can be implemented with some assembly
 	template<> struct StorageSizeTraits<24> : StorageSizeTraits<32> {}; // Force power of two sizes
@@ -40,13 +43,13 @@ namespace etl::math {
 	};
 
 	template<size_t integerSize_, size_t fractionalSize_>
-	struct UnsignedFixedPointNumber : FixedStorageTraits<integerSize_+fractionalSize_>
+	struct UFixed : FixedStorageTraits<integerSize_+fractionalSize_>
 	{
 		using Integer = template FixedStorageTraits<integerSize_>::Storage;
 		using Fractional = template FixedStorageTraits<fractionalSize_>::Storage;
 
-		UnsignedFixedPointNumber() = default;
-		constexpr UnsignedFixedPointNumber(Integer i);
+		UFixed() = default;
+		constexpr UFixed(Integer i);
 
 		// casting
 		constexpr operator Integer() const { return i>>shift; }
@@ -58,7 +61,7 @@ namespace etl::math {
 
 	//------------------------------------------------------------------------------
 	template<size_t ni_, size_t nf_>
-	constexpr UnsignedFixedPointNumber<ni_,nf_>::UnsignedFixedPointNumber(Integer i)
+	constexpr UFixed<ni_,nf_>::UFixed(Integer i)
 		: x(i<<shift)
 	{}
 

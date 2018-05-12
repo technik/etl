@@ -51,12 +51,29 @@ namespace etl::math {
 			static_assert(shift_ <= fract_bits);
 			constexpr auto shift = fract_bits-shift_;
 			UFixed result;
-			result.raw = storage(x)<<shift;
+			result.mRaw = storage(x)<<shift;
 			return result;
 		}
 
+		// Cast operators
+
+		// Raw data access
+		storage raw() const { return mRaw; }
+		storage& raw() { return mRaw; }
+
 	private:
-		storage raw;
+		storage mRaw;
 	};
+
+	//-------------------------------------------------------------------------
+	// Basic math operators
+	//-------------------------------------------------------------------------
+	template<uint8_t int_, uint8_t fract_>
+	auto operator-(
+		const UFixed<int_,fract_>& _a,
+		const UFixed<int_,fract_>& _b)
+	{
+		return UFixed<int_,fract_>::fromRawUFixed<fract_>(_a.raw()-_b.raw());
+	}
 
 }	// namespace etl::math

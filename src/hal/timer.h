@@ -24,7 +24,7 @@ namespace etl::hal {
 	using Tccr1c = IORegister<0x82>;
 
 	using Tcnt1 = IORegister16<0x84>;
-	using Icr1 = IORegister16<0x86>:
+	using Icr1 = IORegister16<0x86>;
 	using Ocr1a = IORegister16<0x88>;
 	using Ocr1b = IORegister16<0x8a>;
 

@@ -63,8 +63,8 @@ namespace etl {
 		struct IORegister16 : RegisterBase<std::uint16_t, location_>
 		{
 			// Delete default methods
-			IORegister(const IORegister&) = delete;
-			IORegister& operator=(const IORegister&) = delete;
+			IORegister16(const IORegister16&) = delete;
+			IORegister16& operator=(const IORegister16&) = delete;
 
 			// High and Low bytes of this register
 			using low = IORegister<location_>;

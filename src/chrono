@@ -5,20 +5,30 @@ pragma once
 
 #include <ratio>
 
-namespace std
+namespace std::chrono
 {
 	template<
 		class Rep,
 		class Period = std::ratio<1>
 	> class duration
 	{
+	public:
 		using rep = Rep;
 		using period = Period::type;
 
 		constexpr duration() = default;
 		duration(const duration&) = default;
 
-		template<class Rep2>
-		constexpr explicit duration(const Rep2& r);
+		template<class Rep2, class Period2>
+		constexpr duration(const duration<Rep2,Period2>& d)
+		{
+			using relative_ratio = std::ratio_divide<Period2,Period>;
+			m_count = d.count() * relative_ratio::num / relative_ratio::den;
+		}
+
+		constexpr rep count() const { return m_count; }
+
+	private:
+		rep m_count;
 	};
 }

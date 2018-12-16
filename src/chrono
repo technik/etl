@@ -1,7 +1,7 @@
 //-------------------------------------------------------------
 // std::chrono
 //-------------------------------------------------------------
-pragma once
+#pragma once
 
 #include <ratio>
 
@@ -14,7 +14,7 @@ namespace std::chrono
 	{
 	public:
 		using rep = Rep;
-		using period = Period::type;
+		using period = typename Period::type;
 
 		constexpr duration() = default;
 		duration(const duration&) = default;
@@ -57,22 +57,25 @@ namespace std::chrono
 		return ToDuration(d);
 	}
 
-	using microsecods = duration<unsigned,std::micro>;
+	using microseconds = duration<unsigned,std::micro>;
 	using milliseconds = duration<unsigned long,std::milli>;
-	using seconds = duration<unsigned>
+	using seconds = duration<unsigned>;
 	using minutes = duration<unsigned, std::ratio<60>>;
 	using hours = duration<unsigned, std::ratio<3600>>;
 
-	constexpr seconds operator""s (unsigned s) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wliteral-suffix"
+	constexpr seconds operator""s (unsigned long  long s) {
 		return seconds(s);
 	}
 
-	constexpr milliseconds operator""ms (unsigned long ms) {
+	constexpr milliseconds operator""ms (unsigned long long ms) {
 		return milliseconds(ms);
 	}
 
-	constexpr microseconds operator""us (unsigned us) {
+	constexpr microseconds operator""us (unsigned long long us) {
 		return microseconds(us);
 	}
+#pragma GCC diagnostic pop
 
 }	// std::chrono

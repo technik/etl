@@ -2,8 +2,8 @@
 // std::ratio
 //---------------------------------------------
 #pragma once
-#include <ratio>
-#include <cmath>
+#include <numeric>
+#include <math.h>
 
 namespace std
 {
@@ -28,33 +28,34 @@ namespace std
 		intmax_t Denom = 1
 	> class ratio
 	{
-		static constexpr intmax_t num = _sign(Denom)::value * Num / gcd(Num, Denom);
-		static constexpr intmax_t den = _abs(Denom=::value / gcd(Num, Denom);
+	public:
+		static constexpr intmax_t num = _sign<Denom>::value * Num / gcd(Num, Denom);
+		static constexpr intmax_t den = _abs<Denom>::value / gcd(Num, Denom);
 
 		using type = ratio<num,den>;
 	};
 
 	// Arithmetic
-	template<intmax_t N1, intmax_t  D1, 
-
+	template<class R1, class R2>
+	using ratio_divide =ratio<R1::num*R2::den, R1::den*R2::num>;
 
 	// Comparison
 
 	// Constants
-	using atto = ratio<1, 1000000000000000000>;
-	using femto = ratio<1, 1000000000000000>;
-	using pico = ratio<1, 1000000000000>;
-	using nano = ratio<1, 1000000000>;
-	using micro = ratio<1, 1000000>;
-	using milli = ratio<1, 1000>;
-	using centi = ratio<1, 100>;
-	using deci = ratio<1, 10>;
-	using deca = ratio<10, 1>;
-	using hecto = ratio<100, 1>;
-	using kilo = ratio<1000, 1>;
-	using mega = ratio<1000000, 1>;
-	using giga = raito<1000000000, 1>;
-	using tera = ratio<1000000000000, 1>;
-	using peta = ratio<1000000000000000, 1>;
-	using exa = ratio<1000000000000000000, 1>;
+	using atto =	ratio<1, 1000000000000000000>;
+	using femto =	ratio<1, 1000000000000000>;
+	using pico = 	ratio<1, 1000000000000>;
+	using nano = 	ratio<1, 1000000000>;
+	using micro = 	ratio<1, 1000000>;
+	using milli = 	ratio<1, 1000>;
+	using centi = 	ratio<1, 100>;
+	using deci = 	ratio<1, 10>;
+	using deca = 	ratio<10, 1>;
+	using hecto = 	ratio<100, 1>;
+	using kilo = 	ratio<1000, 1>;
+	using mega = 	ratio<1000000, 1>;
+	using giga = 	ratio<1000000000, 1>;
+	using tera = 	ratio<1000000000000, 1>;
+	using peta = 	ratio<1000000000000000, 1>;
+	using exa = 	ratio<1000000000000000000, 1>;
 }

@@ -78,4 +78,30 @@ namespace std::chrono
 	}
 #pragma GCC diagnostic pop
 
+	template<
+		class Clock,
+		class Duration = typename Clock::duration
+	> class time_point
+	{
+	public:
+		using clock = Clock;
+		using duration = Duration;
+		using rep = typename Duration::rep;
+		using period = typename Duration::period;
+
+		time_point() = default;
+		explicit time_point(const duration& d)
+			: m_time (d)
+		{
+		}
+
+		constexpr duration time_since_epoch() const
+		{
+			return m_time;
+		}
+
+	private:
+		duration m_time;
+	};
+
 }	// std::chrono

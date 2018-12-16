@@ -19,6 +19,12 @@ namespace std::chrono
 		constexpr duration() = default;
 		duration(const duration&) = default;
 
+		template<class Rep2>
+		constexpr explicit duration(const Rep2& r)
+		{
+			m_count = r;
+		}
+
 		template<class Rep2, class Period2>
 		constexpr duration(const duration<Rep2,Period2>& d)
 		{
@@ -51,4 +57,22 @@ namespace std::chrono
 		return ToDuration(d);
 	}
 
-}
+	using microsecods = duration<unsigned,std::micro>;
+	using milliseconds = duration<unsigned long,std::milli>;
+	using seconds = duration<unsigned>
+	using minutes = duration<unsigned, std::ratio<60>>;
+	using hours = duration<unsigned, std::ratio<3600>>;
+
+	constexpr seconds operator""s (unsigned s) {
+		return seconds(s);
+	}
+
+	constexpr milliseconds operator""ms (unsigned long ms) {
+		return milliseconds(ms);
+	}
+
+	constexpr microseconds operator""us (unsigned us) {
+		return microseconds(us);
+	}
+
+}	// std::chrono

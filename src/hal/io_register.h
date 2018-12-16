@@ -12,10 +12,11 @@
 namespace etl {
 	namespace hal {
 
-		template<std::ptrdiff_t location_>
-		struct IORegister {
-			static constexpr auto location = location_;
-			using value = std::uint8_t;
+		template<class RegT_, std::ptrdiff_t location_>
+		struct RegisterBase
+		{
+			static constexpr std::ptrdiff_t	location = location_;
+			using value = RegT_;
 			using reference = volatile value&;
 			using pointer = volatile value*;
 
@@ -25,32 +26,49 @@ namespace etl {
 			operator reference	()			{ return *reinterpret_cast<pointer>(location_); }
 
 			// Individual pin management
-			template<uint8_t bit_>
+			template<value bit_>
 			static void setBit() {
 				*reinterpret_cast<pointer>(location_) |= bitmask<bit_>();
 			}
 
-			template<uint8_t bit_>
+			template<value bit_>
 			static void clearBit() {
 				*reinterpret_cast<pointer>(location_) &= ~bitmask<bit_>();
 			}
 
-			template<uint8_t bit_>
+			template<value bit_>
 			static value isBitSet() {
 				return *reinterpret_cast<pointer>(location_) & bitmask<bit_>();
 			}
 
+		protected:
+			RegisterBase() = default; // This prevents the class to be instantiated without deriving
+
+			template<value bit_>
+			static constexpr value bitmask()	{
+				static_assert(bit_<8*sizeof(value), "bit_ is out of the scope of this register");
+				return (1<<bit_);
+			}
+		};
+
+		template<std::ptrdiff_t location_>
+		struct IORegister : RegisterBase<std::uint8_t, location_>
+		{
+			// Delete default methods
+			IORegister(const IORegister&) = delete;
+			IORegister& operator=(const IORegister&) = delete;
+		};
+
+		template<std::ptrdiff_t location_>
+		struct IORegister16 : RegisterBase<std::uint16_t, location_>
+		{
 			// Delete default methods
 			IORegister(const IORegister&) = delete;
 			IORegister& operator=(const IORegister&) = delete;
 
-		private:
-			template<uint8_t bit_>
-			static constexpr uint8_t bitmask()	{
-				static_assert(bit_<8, "bit_ is out of the scope of this register");
-				return (1<<bit_);
-			}
-
+			// High and Low bytes of this register
+			using low = IORegister<location_>;
+			using high = IORegister<location_+1>;
 		};
 
 	}

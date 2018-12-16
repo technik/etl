@@ -26,9 +26,29 @@ namespace std::chrono
 			m_count = d.count() * relative_ratio::num / relative_ratio::den;
 		}
 
+		duration& operator=(const duration& other) = default;
+
 		constexpr rep count() const { return m_count; }
+
+		static constexpr duration zero() noexcept { duration d; d.m_count = 0; return d; }
+
+		constexpr duration operator-() const {
+			duration d;
+			d.m_count = -m_count;
+			return d;
+		}
 
 	private:
 		rep m_count;
 	};
+
+	template<
+		class ToDuration,
+		class Rep,
+		class Period
+	> constexpr ToDuration duration_cast(const duration<Rep,Period>& d)
+	{
+		return ToDuration(d);
+	}
+
 }

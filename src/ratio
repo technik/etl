@@ -3,21 +3,44 @@
 //---------------------------------------------
 #pragma once
 #include <ratio>
+#include <cmath>
 
 namespace std
 {
+	// Utilities for computation of normalized ratios
+	template<
+		intmax_t Val
+	> struct _abs
+	{	// computes absolute value of _Val
+		static constexpr intmax_t value = Val < 0 ? - Val : Val;
+	};
+
+	template<
+		intmax_t Val
+	> struct _sign
+	{
+		static constexpr intmax_t value = Val < 0 ? -1 : 1;
+	};
+
 	// Compile time rational arithmetic
 	template<
 		intmax_t Num,
 		intmax_t Denom = 1
 	> class ratio
 	{
-		static constexpr intmax_t num = Num;
-		static constexpr intmax_t den = Denom;
+		static constexpr intmax_t num = _sign(Denom)::value * Num / gcd(Num, Denom);
+		static constexpr intmax_t den = _abs(Denom=::value / gcd(Num, Denom);
 
 		using type = ratio<num,den>;
 	};
 
+	// Arithmetic
+	template<intmax_t N1, intmax_t  D1, 
+
+
+	// Comparison
+
+	// Constants
 	using atto = ratio<1, 1000000000000000000>;
 	using femto = ratio<1, 1000000000000000>;
 	using pico = ratio<1, 1000000000000>;

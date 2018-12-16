@@ -1,0 +1,15 @@
+//---------------------------------------------
+// numeric
+//---------------------------------------------
+#pragma once
+
+namespace std {
+	// Reduced version of std::gcd, only implemented when m and n are of the same type
+	template<class T>
+	constexpr T gcd(T m, T n)
+	{
+		if(!n)
+			return m;
+		return gcd(n, m % n);
+	}
+}

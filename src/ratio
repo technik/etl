@@ -2,6 +2,8 @@
 // std::ratio
 //---------------------------------------------
 #pragma once
+
+#include <cstdint>
 #include <numeric>
 #include <math.h>
 

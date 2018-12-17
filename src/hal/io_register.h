@@ -2,8 +2,6 @@
 // Registers inside the I/O mapping memory
 //----------------------------------------------------------------------------------------------------------------------
 #pragma once
-#ifndef _ETL_HAL_IOREGISTER_H_
-#define _ETL_HAL_IOREGISTER_H_
 
 #include <cstddef>
 #include <cstdint>
@@ -54,17 +52,21 @@ namespace etl {
 		template<std::ptrdiff_t location_>
 		struct IORegister : RegisterBase<std::uint8_t, location_>
 		{
+			IORegister() = default;
 			// Delete default methods
 			IORegister(const IORegister&) = delete;
 			IORegister& operator=(const IORegister&) = delete;
+			using RegisterBase<std::uint8_t, location_>::operator=;
 		};
 
 		template<std::ptrdiff_t location_>
 		struct IORegister16 : RegisterBase<std::uint16_t, location_>
 		{
+			IORegister16() = default;
 			// Delete default methods
 			IORegister16(const IORegister16&) = delete;
 			IORegister16& operator=(const IORegister16&) = delete;
+			using RegisterBase<std::uint16_t, location_>::operator=;
 
 			// High and Low bytes of this register
 			using low = IORegister<location_>;
@@ -73,5 +75,3 @@ namespace etl {
 
 	}
 }
-
-#endif // _ETL_HAL_IOREGISTER_H_

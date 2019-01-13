@@ -18,10 +18,38 @@ namespace etl {
 			using reference = volatile value&;
 			using pointer = volatile value*;
 
-			// Run time accessors
+			// Run time accessors (static)
+			static void set(value _x)
+			{
+				*reinterpret_cast<pointer>(location_) = _x;
+			}
+
+			static void setOr(value _x)
+			{
+				*reinterpret_cast<pointer>(location_) |= _x;
+			}
+
+			static void setAnd(value _x)
+			{
+				*reinterpret_cast<pointer>(location_) &= _x;
+			}
+
+			static value read()
+			{
+				return *reinterpret_cast<pointer>(location_);
+			}
+
+			static void setMasked(value val, value mask)
+			{
+				auto regVal = read() & ~mask;
+				set(val | regVal);
+			}
+
+			// Run time accessors (instance)
 			void	operator=	(value _x)	{ *reinterpret_cast<pointer>(location_) = _x; }
 			operator value		()	const 	{ return *reinterpret_cast<pointer>(location_); }
 			operator reference	()			{ return *reinterpret_cast<pointer>(location_); }
+
 
 			// Individual pin management
 			template<value bit_>
@@ -69,8 +97,8 @@ namespace etl {
 			using RegisterBase<std::uint16_t, location_>::operator=;
 
 			// High and Low bytes of this register
-			using low = IORegister<location_>;
-			using high = IORegister<location_+1>;
+			using Low = IORegister<location_>;
+			using High = IORegister<location_+1>;
 		};
 
 	}

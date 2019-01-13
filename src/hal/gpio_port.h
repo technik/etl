@@ -54,6 +54,16 @@ namespace etl {
 		using DdrDReg	= IORegister<0x2a>;
 		using PortDReg	= IORegister<0x2b>;
 #endif // __AVR_ATmega328P__ || __AVR_ATmega2560__
+
+#ifdef __AVR_ATmega128__ 
+		using PortAReg = IORegister<0x3b>;
+		using PortBReg = IORegister<0x38>;
+		using PortCReg = IORegister<0x35>;
+		using PortDReg = IORegister<0x32>;
+		using PortEReg = IORegister<0x23>;
+		using PortFReg = IORegister<0x82>;
+		using PortGReg = IORegister<0x85>;
+#endif // __AVR_ATmega128__
 		//------------------------------------------------------------------------------------------------------------
 		// AVR Port mapping
 #ifdef PORTA
@@ -67,6 +77,15 @@ namespace etl {
 #endif
 #ifdef PORTD
 		using PortD = GPIOPort<PortDReg>;
+#endif
+#ifdef PORTE
+		using PortE = GPIOPort<PortEReg>;
+#endif
+#ifdef PORTF
+		using PortF = GPIOPort<PortFReg>;
+#endif
+#ifdef PORTG
+		using PortG = GPIOPort<PortGReg>;
 #endif
 	}
 }

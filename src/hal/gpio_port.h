@@ -53,6 +53,15 @@ namespace etl {
 		using PinDReg	= IORegister<0x29>;
 		using DdrDReg	= IORegister<0x2a>;
 		using PortDReg	= IORegister<0x2b>;
+		using PinEReg	= IORegister<0x2c>;
+		using DdrEReg	= IORegister<0x2d>;
+		using PortEReg	= IORegister<0x2e>;
+		using PinFReg	= IORegister<0x2f>;
+		using DdrFReg	= IORegister<0x30>;
+		using PortFReg	= IORegister<0x31>;
+		using PinGReg	= IORegister<0x32>;
+		using DdrGReg	= IORegister<0x33>;
+		using PortGReg	= IORegister<0x34>;
 #endif // __AVR_ATmega328P__ || __AVR_ATmega2560__
 
 #ifdef __AVR_ATmega128__ 

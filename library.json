@@ -9,9 +9,9 @@
     "licentse" : "mit",
     "frameworks" : ["arduino", "atmelavr"],
     "platforms" : ["atmelavr"],
-    "includeDir" : "src",
     "build": {
         "unflags": "-std=gnu++11",
-        "flags": "-std=c++20"
+        "flags": "-std=c++20",
+        "includeDir" : "src"
     }
 }

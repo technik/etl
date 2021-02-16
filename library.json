@@ -1,0 +1,17 @@
+{
+    "name" : "etl",
+    "version" : "0.3.0",
+    "description" : "Embeddet template library for avr microcontrollers",
+    "repository" : {
+        "type" : "git",
+        "url" : "https://github.com/technik/etl.git"
+    },
+    "licentse" : "mit",
+    "frameworks" : ["arduino", "atmelavr"],
+    "platforms" : ["atmelavr"],
+    "includeDir" : "src",
+    "build": {
+        "unflags": "-std=gnu++11",
+        "flags": "-std=c++20"
+    }
+}

@@ -3,6 +3,7 @@
 //-------------------------------------------------------------
 #pragma once
 
+#include <Arduino.h> // For micros()
 #include <ratio>
 
 namespace std::chrono
@@ -63,7 +64,7 @@ namespace std::chrono
 	using hours = duration<unsigned, std::ratio<3600>>;
 
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wliteral-suffix"
+#pragma GCC diagnostic ignored "-Wliteral-suffix" // Yes, GCC, I know suffixes without _ are reserved for std.
 	constexpr seconds operator""s (unsigned long  long s) {
 		return seconds(s);
 	}
@@ -101,6 +102,21 @@ namespace std::chrono
 
 	private:
 		duration m_time;
+	};
+
+	struct steady_clock
+	{
+		using rep = decltype(::micros());
+		using period = microseconds::period;
+		using duration = std::chrono::duration<rep, period>;
+		using time_point = std::chrono::time_point<steady_clock>;
+
+		static constexpr bool is_steady = true;
+
+		static time_point now() noexcept
+		{
+			return time_point(duration(micros()));
+		}
 	};
 
 }	// std::chrono

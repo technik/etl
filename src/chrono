@@ -21,15 +21,14 @@ namespace std::chrono
 
 		template<class Rep2>
 		constexpr explicit duration(const Rep2& r)
+			: m_count(r)
 		{
-			m_count = r;
 		}
 
-		template<class Rep2, class Period2>
+		template<class Rep2, class Period2, class relative_ratio = std::ratio_divide<Period2,Period>>
 		constexpr duration(const duration<Rep2,Period2>& d)
+			: m_count(d.count() * relative_ratio::num / relative_ratio::den)
 		{
-			using relative_ratio = std::ratio_divide<Period2,Period>;
-			m_count = d.count() * relative_ratio::num / relative_ratio::den;
 		}
 
 		duration& operator=(const duration& other) = default;

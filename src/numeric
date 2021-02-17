@@ -8,8 +8,6 @@ namespace std {
 	template<class T>
 	constexpr T gcd(T m, T n)
 	{
-		if(!n)
-			return m;
-		return gcd(n, m % n);
+		return (n == 0) ? m : gcd(n, m % n);
 	}
 }

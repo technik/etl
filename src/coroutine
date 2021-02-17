@@ -26,4 +26,18 @@ namespace std
 	{
 		using promise_type = typename R::promise_type;
 	};
+
+	struct suspend_always
+	{
+		constexpr bool await_ready() const noexcept { return false; }
+		void await_suspend() const noexcept {}
+		void await_resume() const noexcept {}
+	};
+
+	struct suspend_never
+	{
+		constexpr bool await_ready() const noexcept { return true; }
+		void await_suspend() const noexcept {}
+		void await_resume() const noexcept {}
+	};
 }

@@ -44,6 +44,11 @@ namespace std::chrono
 			return d;
 		}
 
+		duration& operator+=(duration x) {
+			m_count += x.m_count;
+			return *this;
+		}
+
 	private:
 		rep m_count;
 	};
@@ -98,6 +103,13 @@ namespace std::chrono
 		constexpr duration time_since_epoch() const
 		{
 			return m_time;
+		}
+
+		template<class Rep2, class Period2>
+		time_point& operator+=(std::chrono::duration<Rep2, Period2> dt)
+		{
+			m_time += duration_cast<duration>(dt);
+			return *this;
 		}
 
 	private:

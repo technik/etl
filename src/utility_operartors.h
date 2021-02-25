@@ -1,13 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Standard templates library. Freestanding implementation.
-// Created by Carmelo J. Fernández-Agüera Tortosa, a.k.a. Technik
+// Created by Carmelo J. Fernï¿½ndez-Agï¿½era Tortosa, a.k.a. Technik
 // On March 15th, 2012
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _RTL_UTILITY_OPERATORS_H_
-#define _RTL_UTILITY_OPERATORS_H_
+#pragma once
 
-namespace rtl
+namespace std
 {
 	// Inequality operator
 	template<class T>
@@ -33,6 +32,4 @@ namespace rtl
 	{
 		return !(a < b);
 	}
-}	// namespace rtl
-
-#endif // _RTL_UTILITY_OPERATORS_H_
+}	// namespace std

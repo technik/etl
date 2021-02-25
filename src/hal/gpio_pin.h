@@ -29,20 +29,10 @@ namespace etl {
 			InputPin_base() = default;
 
 			bool isHigh		() const volatile { return Port_::template isPinHigh<pin_>(); }
+			operator bool() const { return isHigh(); }
 
 			InputPin_base(const InputPin_base&) = delete; // Not copy-constructible
 			InputPin_base& operator=(const InputPin_base&) = delete;
-		};
-	
-		//----------------------------------------------------------------------
-		template<class Port_, uint8_t pin_>
-		struct GPIOPin
-			: InputPin_base<Port_,pin_>
-			, OutputPin_base<Port_,pin_>{
-		public:
-			// Configure pin direction
-			void configureAsOutput	() { Port_::template configurePinAsOutput<pin_>(); }
-			void configureAsInput	() { Port_::template configurePinAsInput<pin_>(); }
 		};
 
 		//----------------------------------------------------------------------
@@ -58,7 +48,20 @@ namespace etl {
 		public:
 			InputPin() { Port_::template configurePinAsInput<pin_>(); }
 		};
+	
+		//----------------------------------------------------------------------
+		template<class Port_, uint8_t pin_>
+		struct GPIOPin
+			: InputPin_base<Port_,pin_>
+			, OutputPin_base<Port_,pin_>{
+		public:
+			using In = InputPin<Port_,pin_>;
+			using Out = OutputPin<Port_,pin_>;
 
+			// Configure pin direction
+			void configureAsOutput	() { Port_::template configurePinAsOutput<pin_>(); }
+			void configureAsInput	() { Port_::template configurePinAsInput<pin_>(); }
+		};
 	}
 }
 

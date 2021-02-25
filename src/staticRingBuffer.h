@@ -41,7 +41,7 @@ namespace etl
 			if(full()) return false;
 
 			buffer[writePos%capacity_] = x;
-			++x;
+			++writePos;
 			return true;
 		}
 

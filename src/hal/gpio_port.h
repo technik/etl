@@ -62,6 +62,18 @@ namespace etl {
 		using PinGReg	= IORegister<0x32>;
 		using DdrGReg	= IORegister<0x33>;
 		using PortGReg	= IORegister<0x34>;
+		using PinHReg	= IORegister<0x100>;
+		using DdrHReg	= IORegister<0x101>;
+		using PortHReg	= IORegister<0x102>;
+		using PinJReg	= IORegister<0x103>;
+		using DdrJReg	= IORegister<0x104>;
+		using PortJReg	= IORegister<0x105>;
+		using PinKReg	= IORegister<0x106>;
+		using DdrKReg	= IORegister<0x107>;
+		using PortKReg	= IORegister<0x108>;
+		using PinLReg	= IORegister<0x109>;
+		using DdrLReg	= IORegister<0x10a>;
+		using PortLReg	= IORegister<0x10b>;
 #endif // __AVR_ATmega328P__ || __AVR_ATmega2560__
 
 #ifdef __AVR_ATmega128__ 
@@ -95,6 +107,18 @@ namespace etl {
 #endif
 #ifdef PORTG
 		using PortG = GPIOPort<PortGReg>;
+#endif
+#ifdef PORTH
+		using PortH = GPIOPort<PortHReg>;
+#endif
+#ifdef PORTJ
+		using PortJ = GPIOPort<PortJReg>;
+#endif
+#ifdef PORTK
+		using PortK = GPIOPort<PortKReg>;
+#endif
+#ifdef PORTJ
+		using PortL = GPIOPort<PortLReg>;
 #endif
 	}
 }

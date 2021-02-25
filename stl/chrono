@@ -48,6 +48,18 @@ namespace std::chrono
 			m_count += x.m_count;
 			return *this;
 		}
+		
+		duration operator-(duration x) {
+			duration res = *this;
+			res.m_count -= x.m_count;
+			return res;
+		}
+		
+		duration operator+(duration x) {
+			duration res = *this;
+			res.m_count += x.m_count;
+			return res;
+		}
 
 	private:
 		rep m_count;
@@ -68,8 +80,10 @@ namespace std::chrono
 	using minutes = duration<unsigned, std::ratio<60>>;
 	using hours = duration<unsigned, std::ratio<3600>>;
 
+#ifndef _WIN32
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wliteral-suffix" // Yes, GCC, I know suffixes without _ are reserved for std.
+#endif
 	constexpr seconds operator""s (unsigned long  long s) {
 		return seconds(s);
 	}
@@ -81,7 +95,9 @@ namespace std::chrono
 	constexpr microseconds operator""us (unsigned long long us) {
 		return microseconds(us);
 	}
+#ifndef _WIN32
 #pragma GCC diagnostic pop
+#endif
 
 	template<
 		class Clock,
@@ -110,6 +126,14 @@ namespace std::chrono
 		{
 			m_time += duration_cast<duration>(dt);
 			return *this;
+		}
+		
+		duration operator-(time_point x) {
+			return x.m_time - m_time;
+		}
+		
+		time_point operator+(duration dt) {
+			return time_point(m_time + dt);
 		}
 
 	private:

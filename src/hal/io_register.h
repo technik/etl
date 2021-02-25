@@ -5,7 +5,9 @@
 
 #include <cstddef>
 #include <cstdint>
+#ifndef _WIN32
 #include <avr/io.h>
+#endif
 
 namespace etl {
 	namespace hal {

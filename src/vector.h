@@ -1,15 +1,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Standard templates library. Freestanding implementation.
-// Created by Carmelo J. Fernández-Agüera Tortosa, a.k.a. Technik
-// On March 7th, 2012
+// Created by Carmelo J. Fernï¿½ndez-Agï¿½era Tortosa, a.k.a. Technik
+// March 7th, 2012 - 2021
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef _RTL_VECTOR_H_
-#define _RTL_VECTOR_H_
+#pragma once
 
 #include <iterator_tags.h>
 #include <memory.h>
-#include <utility.h>
+#include <utility>
 
 namespace rtl
 {
@@ -386,6 +385,4 @@ namespace rtl
 		return iterator(const_cast<T*>(&*x));
 	}
 
-}	// namespace rtl
-
-#endif // _RTL_VECTOR_H_
+}	// namespace stl

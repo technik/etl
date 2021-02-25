@@ -1,15 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Standard templates library. Freestanding implementation.
-// Created by Carmelo J. Fernández-Agüera Tortosa, a.k.a. Technik
+// Created by Carmelo J. Fernï¿½ndez-Agï¿½era Tortosa, a.k.a. Technik
 // On March 3rd, 2012
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#ifndef _RTL_UTILITY_H_
-#define _RTL_UTILITY_H_
+#pragma once
 
 #include "utility_operartors.h"
 
-namespace rtl
+namespace std
 {
 	// TODO: General utilities
 	// Swap
@@ -88,6 +86,4 @@ namespace rtl
 	{
 		return pair<T1,T2>(a, b);
 	}
-}	// namespace rtl
-
-#endif // _RTL_UTILITY_H_
+}	// namespace std

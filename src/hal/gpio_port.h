@@ -37,6 +37,24 @@ namespace etl {
 
 		//------------------------------------------------------------------------------------------------------------
 		// AVR Port register mapping
+#ifdef SITL
+		// For software-in-the-loop simulations, register addresses are just used as type tags.
+		// We can just assign arbitrary addresses as long as they don't conflict with each other, 
+		// So we'll just reuse the ones from Atmega2560
+#define __AVR_ATmega2560__
+#define PORTA
+#define PORTB
+#define PORTC
+#define PORTD
+#define PORTE
+#define PORTF
+#define PORTG
+#define PORTH
+#define PORTJ
+#define PORTK
+#define PORTL
+
+#endif
 #if defined (__AVR_ATmega2560__)
 		using PinAReg	= IORegister<0x20>;
 		using DdrARReg	= IORegister<0x21>;
@@ -117,7 +135,7 @@ namespace etl {
 #ifdef PORTK
 		using PortK = GPIOPort<PortKReg>;
 #endif
-#ifdef PORTJ
+#ifdef PORTL
 		using PortL = GPIOPort<PortLReg>;
 #endif
 	}

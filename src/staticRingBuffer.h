@@ -70,6 +70,11 @@ namespace etl
 			++readPos;
 		}
 
+		void clear()
+		{
+			readPos = writePos;
+		}
+
 	private:
 		size_t writePos {};
 		size_t readPos {};

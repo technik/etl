@@ -61,6 +61,10 @@ namespace std::chrono
 			return res;
 		}
 
+		constexpr bool operator<(duration x) const {
+			return m_count < x.m_count;
+		}
+
 	private:
 		rep m_count;
 	};
@@ -74,30 +78,11 @@ namespace std::chrono
 		return ToDuration(d);
 	}
 
-	using microseconds = duration<unsigned,std::micro>;
-	using milliseconds = duration<unsigned long,std::milli>;
-	using seconds = duration<unsigned>;
-	using minutes = duration<unsigned, std::ratio<60>>;
-	using hours = duration<unsigned, std::ratio<3600>>;
-
-#ifndef _WIN32
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wliteral-suffix" // Yes, GCC, I know suffixes without _ are reserved for std.
-#endif
-	constexpr seconds operator""s (unsigned long  long s) {
-		return seconds(s);
-	}
-
-	constexpr milliseconds operator""ms (unsigned long long ms) {
-		return milliseconds(ms);
-	}
-
-	constexpr microseconds operator""us (unsigned long long us) {
-		return microseconds(us);
-	}
-#ifndef _WIN32
-#pragma GCC diagnostic pop
-#endif
+	using microseconds = duration<long,std::micro>;
+	using milliseconds = duration<long,std::milli>;
+	using seconds = duration<long>;
+	using minutes = duration<long, std::ratio<60>>;
+	using hours = duration<long, std::ratio<3600>>;
 
 	template<
 		class Clock,
@@ -129,7 +114,7 @@ namespace std::chrono
 		}
 		
 		duration operator-(time_point x) {
-			return x.m_time - m_time;
+			return m_time - x.m_time;
 		}
 		
 		time_point operator+(duration dt) {
@@ -142,7 +127,8 @@ namespace std::chrono
 
 	struct steady_clock
 	{
-		using rep = decltype(::micros());
+		using rep = long;
+		static_assert(sizeof(rep) == 4);
 		using period = microseconds::period;
 		using duration = std::chrono::duration<rep, period>;
 		using time_point = std::chrono::time_point<steady_clock>;
@@ -156,3 +142,26 @@ namespace std::chrono
 	};
 
 }	// std::chrono
+
+namespace std::chrono_literals
+{
+
+#ifndef _WIN32
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wliteral-suffix" // Yes, GCC, I know suffixes without _ are reserved for std.
+#endif
+	constexpr chrono::seconds operator""s (unsigned long  long s) {
+		return chrono::seconds(s);
+	}
+
+	constexpr chrono::milliseconds operator""ms (unsigned long long ms) {
+		return chrono::milliseconds(ms);
+	}
+
+	constexpr chrono::microseconds operator""us (unsigned long long us) {
+		return chrono::microseconds(us);
+	}
+#ifndef _WIN32
+#pragma GCC diagnostic pop
+#endif
+}

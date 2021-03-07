@@ -49,15 +49,22 @@ namespace std::chrono
 			return *this;
 		}
 		
-		duration operator-(duration x) {
+		constexpr duration operator-(duration x) const {
 			duration res = *this;
 			res.m_count -= x.m_count;
 			return res;
 		}
 		
-		duration operator+(duration x) {
+		constexpr duration operator+(duration x) const {
 			duration res = *this;
 			res.m_count += x.m_count;
+			return res;
+		}
+		
+		template<class T>
+		constexpr duration operator*(T x) const {
+			duration res = *this;
+			res.m_count *= x;
 			return res;
 		}
 
@@ -123,22 +130,6 @@ namespace std::chrono
 
 	private:
 		duration m_time;
-	};
-
-	struct steady_clock
-	{
-		using rep = long;
-		static_assert(sizeof(rep) == 4);
-		using period = microseconds::period;
-		using duration = std::chrono::duration<rep, period>;
-		using time_point = std::chrono::time_point<steady_clock>;
-
-		static constexpr bool is_steady = true;
-
-		static time_point now() noexcept
-		{
-			return time_point(duration(micros()));
-		}
 	};
 
 }	// std::chrono

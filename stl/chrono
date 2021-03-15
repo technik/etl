@@ -72,6 +72,10 @@ namespace std::chrono
 			return m_count < x.m_count;
 		}
 
+		constexpr bool operator>(duration x) const {
+			return m_count > x.m_count;
+		}
+
 	private:
 		rep m_count;
 	};
